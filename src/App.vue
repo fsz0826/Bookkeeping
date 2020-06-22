@@ -8,12 +8,14 @@
   @import "~@/assets/styles/helper.scss";
   @import "~@/assets/styles/reset.scss";
 
-  #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #333;
-}
+  body {
+    line-height: 1.5;
+    font-family: $font-hei;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #333;
+    background: #f5f5f5;
+  }
 
 </style>
