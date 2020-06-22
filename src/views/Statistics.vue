@@ -1,7 +1,8 @@
 <template>
   <div>
-  <div>统计</div>
-  <Layout/>
+    <Layout>
+      <div>统计页面</div>
+    </Layout>
   </div>
 </template>
 

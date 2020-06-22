@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div>钱花完了</div>
-  <Layout/>
+    <Layout>
+      <div>钱花完了</div>
+    </Layout>
   </div>
 </template>
 
 <script lang="js">
-  import Layout from "../components/Layout"
+  import Layout from "@/components/Layout"
   export default {
     name: "Money",
     components: {Layout}

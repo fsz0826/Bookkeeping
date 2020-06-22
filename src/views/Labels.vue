@@ -1,12 +1,13 @@
 <template>
   <div>
-  <div>标签</div>
-  <Layout/>
+    <Layout>
+      <div>标签页面</div>
+    </Layout>
   </div>
 </template>
 
 <script lang="js">
-  import Layout from "../components/Layout"
+  import Layout from "@/components/Layout"
   export default {
     name: "Labels",
     components: {Layout}
