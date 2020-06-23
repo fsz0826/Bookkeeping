@@ -13,7 +13,12 @@
 <script lang="js">
   export default {
     name: "FormItem",
-    props:['value','fieldName','placeholder']
+    props:['value','fieldName','placeholder'],
+    methods:{
+      onValueChanged(value) {
+        this.$emit("update:value", value);
+      }
+    }
   }
 </script>
 

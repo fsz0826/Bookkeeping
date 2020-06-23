@@ -1,13 +1,15 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <NumberPad/>
-      <Types/>
+      {{record}}
+      <NumberPad @update:value="onUpdateAmount"/>
+      <Types :value.sync="record.type"/>
       <div class="notes">
         <FormItem field-name="备注"
-                  placeholder="在这里输入备注"/>
+                  placeholder="在这里输入备注"
+                  @update:value="onUpdateNotes"/>
       </div>
-      <Tags :data-source="tags"/>
+      <Tags :data-source.sync="tags" @update:selected="onUpdateTags"/>
     </Layout>
   </div>
 </template>
@@ -22,9 +24,26 @@
   export default {
     name: "Money",
     components: {Tags, FormItem, Types, NumberPad, Layout},
-    data(){
-      return{
-        tags:['衣','食','住','行']
+    data() {
+      return {
+        tags: ['衣', '食', '住', '行'],
+        record: {
+          tags: [],
+          notes: '',
+          type: '-',
+          amount: '0'
+        },
+      }
+    },
+    methods: {
+      onUpdateNotes(value) {
+        this.record.notes = value
+      },
+      onUpdateAmount(value) {
+        this.record.amount = value
+      },
+      onUpdateTags(value) {
+        this.record.tags = (value)
       }
     },
   }
@@ -35,6 +54,7 @@
     display: flex;
     flex-direction: column-reverse;
   }
+
   .notes {
     padding: 12px 0;
   }

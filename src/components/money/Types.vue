@@ -10,9 +10,10 @@
 <script lang="js">
   export default {
     name: 'Types',
+    props:['value'],
     data() {
       return {
-        type: '-'//'-'表示支出, '+'表示收入
+        type: this.value//'-'表示支出, '+'表示收入
       }
     },
     methods: {
@@ -20,7 +21,8 @@
         if (type !== '-' && type !== '+') {
           throw new Error('type is unknown')
         }
-        this.type = type
+        this.type=type
+        this.$emit('update:value',type)
       }
     }
   };
