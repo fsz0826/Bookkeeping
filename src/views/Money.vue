@@ -1,16 +1,19 @@
 <template>
   <div>
     <Layout>
-      <div>钱花完了</div>
+      <Types/>
+      <NumberPad/>
     </Layout>
   </div>
 </template>
 
 <script lang="js">
   import Layout from "@/components/Layout"
+  import NumberPad from "@/components/money/NumberPad"
+  import Types from "@/components/money/Types"
   export default {
     name: "Money",
-    components: {Layout}
+    components: {Types, NumberPad, Layout}
   }
 </script>
 
