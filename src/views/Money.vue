@@ -2,7 +2,7 @@
   <div>
     <Layout class-prefix="layout">
       {{record}}
-      <NumberPad @update:value="onUpdateAmount"/>
+      <NumberPad :value.sync="record.amount"/>
       <Types :value.sync="record.type"/>
       <div class="notes">
         <FormItem field-name="备注"
@@ -38,9 +38,6 @@
     methods: {
       onUpdateNotes(value) {
         this.record.notes = value
-      },
-      onUpdateAmount(value) {
-        this.record.amount = value
       },
       onUpdateTags(value) {
         this.record.tags = (value)

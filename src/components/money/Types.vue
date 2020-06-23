@@ -1,8 +1,8 @@
 <template>
   <div>
     <ul class="types">
-      <li :class="type === '-' && 'selected' " @click="selectType('-')">支出</li>
-      <li :class="type === '+' && 'selected' " @click="selectType('+')">收入</li>
+      <li :class="value === '-' && 'selected' " @click="selectType('-')">支出</li>
+      <li :class="value === '+' && 'selected' " @click="selectType('+')">收入</li>
     </ul>
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script lang="js">
   export default {
     name: 'Types',
-    props:['value'],
+    props: ['value'],
     data() {
       return {
         type: this.value//'-'表示支出, '+'表示收入
@@ -21,8 +21,8 @@
         if (type !== '-' && type !== '+') {
           throw new Error('type is unknown')
         }
-        this.type=type
-        this.$emit('update:value',type)
+        // this.type=type
+        this.$emit('update:value', type)
       }
     }
   };
@@ -42,6 +42,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
+
       &.selected::after {
         content: '';
         position: absolute;

@@ -23,9 +23,10 @@
 <script lang="js">
   export default {
     name: "NumberPad",
+    props:['value'],
     data() {
       return {
-        output: '0'
+        output: this.value.toString()
       }
     },
     methods: {
