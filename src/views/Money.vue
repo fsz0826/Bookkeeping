@@ -2,7 +2,7 @@
   <div>
     <Layout class-prefix="layout">
       {{record}}
-      <NumberPad :value.sync="record.amount"/>
+      <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
       <Types :value.sync="record.type"/>
       <div class="notes">
         <FormItem field-name="备注"
@@ -33,6 +33,7 @@
           type: '-',
           amount: '0'
         },
+        recordList: [],
       }
     },
     methods: {
@@ -41,8 +42,17 @@
       },
       onUpdateTags(value) {
         this.record.tags = (value)
+      },
+      saveRecord() {
+        const record2 = JSON.parse(JSON.stringify(this.record))
+        this.recordList.push(record2)
       }
     },
+    watch: {
+      recordList:function() {
+        window.localStorage.setItem('recordLIst',JSON.stringify(this.recordList))
+      }
+    }
   }
 </script>
 
