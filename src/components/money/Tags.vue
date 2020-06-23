@@ -4,17 +4,35 @@
       <button>新增标签</button>
     </div>
     <ul class="current">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
+      <li v-for="tag in dataSource" :key="tag"
+          :class="{selected: selectedTags.indexOf(tag)>=0}"
+          @click="toggle(tag)">{{tag}}
+      </li>
     </ul>
   </div>
 </template>
 
 <script lang="js">
   export default {
-    name: "Tags"
+    name: "Tags",
+    props:['dataSource'],
+    data(){
+      return{
+        selectedTags:[],
+      }
+    },
+    methods:{
+      toggle(tag){
+        const index = this.selectedTags.indexOf(tag);
+        if (index >= 0) {
+          this.selectedTags.splice(index, 1);
+        } else {
+          this.selectedTags.push(tag);
+        }
+        //console.log(index)
+        //console.log(this.selectedTags)
+      }
+    },
   }
 </script>
 

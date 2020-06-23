@@ -7,7 +7,7 @@
         <FormItem field-name="备注"
                   placeholder="在这里输入备注"/>
       </div>
-      <Tags/>
+      <Tags :data-source="tags"/>
     </Layout>
   </div>
 </template>
@@ -21,7 +21,12 @@
 
   export default {
     name: "Money",
-    components: {Tags, FormItem, Types, NumberPad, Layout}
+    components: {Tags, FormItem, Types, NumberPad, Layout},
+    data(){
+      return{
+        tags:['衣','食','住','行']
+      }
+    },
   }
 </script>
 
