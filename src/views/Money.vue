@@ -33,7 +33,7 @@
           type: '-',
           amount: '0'
         },
-        recordList: [],
+        recordList:JSON.parse(window.localStorage.getItem('recordList')) || [],
       }
     },
     methods: {
@@ -45,13 +45,17 @@
       },
       saveRecord() {
         const record2 = JSON.parse(JSON.stringify(this.record))
+        record2.createAt = new Date()
         this.recordList.push(record2)
       }
     },
     watch: {
       recordList:function() {
-        window.localStorage.setItem('recordLIst',JSON.stringify(this.recordList))
+        window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
       }
+    },
+    created(){
+      console.log(this.recordList)
     }
   }
 </script>
