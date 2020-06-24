@@ -4,6 +4,7 @@ import Money from "../views/Money"
 import Labels from "../views/Labels"
 import Statistics from "../views/Statistics"
 import NotFound from "../views/NotFound"
+import EditLabel from "@/components/EditLabel"
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const routes = [
   {
     path:'/statistics',
     component:Statistics
+  },
+  {
+    path:'/labels/edit/:id',
+    component: EditLabel
   },
   {
     path:'*',

@@ -4,43 +4,50 @@
       <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource" :key="tag"
-          :class="{selected: selectedTags.indexOf(tag)>=0}"
-          @click="toggle(tag)">{{tag}}
+      <li v-for="tag in dataSource" :key="tag.name"
+          :class="{selected: selectedTags.indexOf(tag.name)>=0}"
+          @click="toggle(tag.name)">{{tag.name}}
       </li>
     </ul>
   </div>
 </template>
 
 <script lang="js">
+  import tagListModel from "@/models/tagListModel"
+
   export default {
     name: "Tags",
-    props:['dataSource'],
-    data(){
-      return{
-        selectedTags:[],
+    props: ['dataSource'],
+    data() {
+      return {
+        selectedTags: [],
       }
     },
-    methods:{
-      toggle(tag){
+    methods: {
+      toggle(tag) {
         const index = this.selectedTags.indexOf(tag);
         if (index >= 0) {
           this.selectedTags.splice(index, 1);
         } else {
           this.selectedTags.push(tag);
         }
-        this.$emit('update:selected',this.selectedTags)
+        this.$emit('update:selected', this.selectedTags)
         //console.log(index)
         //console.log(this.selectedTags)
       },
-      createTag(){
-        const name = window.prompt('请输入标签名');
-        if(name === null){return}
-        if (name === '') {
-          window.alert('标签名不能为空');
-        } else if (this.dataSource) {
-          this.$emit('update:dataSource',
-            [...this.dataSource, name]);
+      createTag() {
+        const name = window.prompt('请输入标签名')
+        if (name === null) {return}
+        if (name) {
+
+          const message = tagListModel.create(name)
+          if (message === 'duplicated') {
+            window.alert('标签名重复')
+          }
+          if (message === 'success') {
+            window.alert('成功')
+            console.log(this.tags)
+          }
         }
       }
     },

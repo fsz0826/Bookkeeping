@@ -20,15 +20,16 @@
   import FormItem from "@/components/money/FormItem"
   import Tags from "@/components/money/Tags"
   import recordListModel from "@/models/recordListModel"
+  import tagListModel from "@/models/tagListModel"
 
   const recordList = recordListModel.fetch()
-
+  // const tagList = tagListModel.fetch()
   export default {
     name: "Money",
     components: {Tags, FormItem, Types, NumberPad, Layout},
     data() {
       return {
-        tags: ['衣', '食', '住', '行'],
+        tags: tagListModel.fetch(),
         record: {
           tags: [],
           notes: '',
