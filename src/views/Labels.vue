@@ -20,7 +20,6 @@
 </template>
 
 <script lang="js">
-  import Layout from "@/components/Layout"
   import tagListModel from "@/models/tagListModel"
   import Button from "@/components/Button"
   tagListModel.fetch()
@@ -28,7 +27,7 @@
 
   export default {
     name: "Labels",
-    components: {Layout,Button},
+    components: {Button},
     data(){
       return{
         tags:tagListModel.data
@@ -46,7 +45,6 @@
           }
         if(message ==='success'){
           window.alert('成功')
-          console.log(this.tags)
         }
         }
       }

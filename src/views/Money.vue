@@ -14,10 +14,9 @@
 </template>
 
 <script lang="js">
-  import Layout from "@/components/Layout"
   import NumberPad from "@/components/money/NumberPad"
   import Types from "@/components/money/Types"
-  import FormItem from "@/components/money/FormItem"
+  import FormItem from "@/components/FormItem"
   import Tags from "@/components/money/Tags"
   import recordListModel from "@/models/recordListModel"
   import tagListModel from "@/models/tagListModel"
@@ -26,7 +25,7 @@
   // const tagList = tagListModel.fetch()
   export default {
     name: "Money",
-    components: {Tags, FormItem, Types, NumberPad, Layout},
+    components: {Tags, FormItem, Types, NumberPad},
     data() {
       return {
         tags: tagListModel.fetch(),
