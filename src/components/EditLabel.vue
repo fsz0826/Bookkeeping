@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" @click="goBack" name="back"/>
+      <Icon class="leftIcon" name="back" @click="goBack"/>
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
@@ -43,9 +43,8 @@
           }
         }
       },
-      goBack() {
-        console.log('-----')
-        this.$router.back();
+      goBack(){
+        this.$router.back()
       }
     },
     created() {

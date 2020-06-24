@@ -21,21 +21,21 @@
   import recordListModel from "@/models/recordListModel"
   import tagListModel from "@/models/tagListModel"
 
-  const recordList = recordListModel.fetch()
-  // const tagList = tagListModel.fetch()
+  recordListModel.fetch()
+  tagListModel.fetch()
   export default {
     name: "Money",
     components: {Tags, FormItem, Types, NumberPad},
     data() {
       return {
-        tags: tagListModel.fetch(),
+        tags: tagListModel.data,
         record: {
           tags: [],
           notes: '',
           type: '-',
           amount: '0'
         },
-        recordList:recordList
+        recordList: recordListModel.data
       }
     },
     methods: {
@@ -52,8 +52,8 @@
       }
     },
     watch: {
-      recordList:function() {
-        recordListModel.save(this.recordList);
+      recordList: function () {
+        recordListModel.save();
       }
     },
   }
