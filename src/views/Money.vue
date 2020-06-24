@@ -1,7 +1,6 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      {{record}}
       <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
       <Types :value.sync="record.type"/>
       <div class="notes">
@@ -20,6 +19,9 @@
   import Types from "@/components/money/Types"
   import FormItem from "@/components/money/FormItem"
   import Tags from "@/components/money/Tags"
+  import recordListModel from "@/models/recordListModel"
+
+  const recordList = recordListModel.fetch()
 
   export default {
     name: "Money",
@@ -33,7 +35,7 @@
           type: '-',
           amount: '0'
         },
-        recordList:JSON.parse(window.localStorage.getItem('recordList')) || [],
+        recordList:recordList
       }
     },
     methods: {
@@ -44,19 +46,16 @@
         this.record.tags = (value)
       },
       saveRecord() {
-        const record2 = JSON.parse(JSON.stringify(this.record))
+        const record2 = recordListModel.clone(this.record)
         record2.createAt = new Date()
         this.recordList.push(record2)
       }
     },
     watch: {
       recordList:function() {
-        window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+        recordListModel.save(this.recordList);
       }
     },
-    created(){
-      console.log(this.recordList)
-    }
   }
 </script>
 
