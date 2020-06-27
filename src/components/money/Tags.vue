@@ -4,7 +4,7 @@
       <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource" :key="tag.name"
+      <li v-for="tag in tagList" :key="tag.name"
           :class="{selected: selectedTags.indexOf(tag.name)>=0}"
           @click="toggle(tag.name)">{{tag.name}}
       </li>
@@ -13,7 +13,6 @@
 </template>
 
 <script lang="js">
-  import tagListModel from "@/models/tagListModel"
 
   export default {
     name: "Tags",
@@ -21,6 +20,11 @@
     data() {
       return {
         selectedTags: [],
+      }
+    },
+    computed:{
+      tagList(){
+        return this.$store.state.tagList
       }
     },
     methods: {
@@ -40,7 +44,7 @@
         if (name === null) {return}
         if (name) {
 
-          const message = tagListModel.create(name)
+          const message = this.$store.commit('createTag',name)
           if (message === 'duplicated') {
             window.alert('标签名重复')
           }
@@ -51,6 +55,9 @@
         }
       }
     },
+    created(){
+      this.$store.commit('fetchTag')
+    }
   }
 </script>
 

@@ -8,8 +8,7 @@
                   placeholder="在这里输入备注"
                   @update:value="onUpdateNotes"/>
       </div>
-      <Tags :data-source.sync="tags" @update:selected="onUpdateTags"/>
-    {{recordList}}
+      <Tags @update:selected="onUpdateTags"/>
     </Layout>
   </div>
 </template>
@@ -19,16 +18,13 @@
   import Types from "@/components/money/Types"
   import FormItem from "@/components/FormItem"
   import Tags from "@/components/money/Tags"
-  import tagListModel from "@/models/tagListModel"
 
 
-  tagListModel.fetch()
   export default {
     name: "Money",
     components: {Tags, FormItem, Types, NumberPad},
     data() {
       return {
-        tags: tagListModel.data,
         record: {
           tags: [],
           notes: '',
@@ -40,6 +36,9 @@
     computed:{
       recordList(){
         return this.$store.recordList
+      },
+      tagList(){
+        return this.$store.tagList
       }
     },
     methods: {

@@ -33,6 +33,11 @@
         tags:tagListModel.data
       }
     },
+    computed:{
+      tagList() {
+        return this.$store.state.tagList;
+      }
+    },
     methods:{
       createTag() {
         const name = window.prompt('请输入标签名')
