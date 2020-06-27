@@ -2,7 +2,7 @@
   <div>
     <Layout class-prefix="layout">
       <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-      <Types :value.sync="record.type"/>
+      <Tab :data-source="typeList" :value.sync="record.type"/>
       <div class="notes">
         <FormItem field-name="备注"
                   placeholder="在这里输入备注"
@@ -15,14 +15,15 @@
 
 <script lang="js">
   import NumberPad from "@/components/money/NumberPad"
-  import Types from "@/components/money/Types"
+  import Tab from "@/components/Tab"
   import FormItem from "@/components/FormItem"
   import Tags from "@/components/money/Tags"
+  import typeList from "@/constants/typeList"
 
 
   export default {
     name: "Money",
-    components: {Tags, FormItem, Types, NumberPad},
+    components: {Tags, FormItem, Tab, NumberPad},
     data() {
       return {
         record: {
@@ -31,6 +32,7 @@
           type: '-',
           amount: '0'
         },
+        typeList:typeList
       }
     },
     computed:{
