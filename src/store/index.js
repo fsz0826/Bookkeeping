@@ -23,8 +23,7 @@ const store =  new Vuex.Store({
       window.localStorage.setItem('recordList',
         JSON.stringify(state.recordList));
     },
-  },
-  actions: {
+  },  actions: {
   },
   modules: {
   }
