@@ -9,6 +9,7 @@
                   @update:value="onUpdateNotes"/>
       </div>
       <Tags :data-source.sync="tags" @update:selected="onUpdateTags"/>
+    {{recordList}}
     </Layout>
   </div>
 </template>
@@ -18,10 +19,9 @@
   import Types from "@/components/money/Types"
   import FormItem from "@/components/FormItem"
   import Tags from "@/components/money/Tags"
-  import recordListModel from "@/models/recordListModel"
   import tagListModel from "@/models/tagListModel"
 
-  recordListModel.fetch()
+
   tagListModel.fetch()
   export default {
     name: "Money",
@@ -35,7 +35,11 @@
           type: '-',
           amount: '0'
         },
-        recordList: recordListModel.data
+      }
+    },
+    computed:{
+      recordList(){
+        return this.$store.recordList
       }
     },
     methods: {
@@ -46,16 +50,12 @@
         this.record.tags = (value)
       },
       saveRecord() {
-        const record2 = recordListModel.clone(this.record)
-        record2.createAt = new Date()
-        this.recordList.push(record2)
+        this.$store.commit('createRecord',this.record)
       }
     },
-    watch: {
-      recordList: function () {
-        recordListModel.save();
-      }
-    },
+    created() {
+      this.$store.commit('fetchRecord')
+    }
   }
 </script>
 
