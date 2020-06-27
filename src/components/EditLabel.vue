@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name"
+      <FormItem :value="currentTag.name"
                 @update:value="update"
                 field-name="标签名" placeholder="请输入标签名"/>
     </div>
@@ -17,7 +17,6 @@
 </template>
 
 <script lang="js">
-  import tagListModel from "@/models/tagListModel"
   import FormItem from '@/components/FormItem.vue';
   import Button from '@/components/Button.vue';
   export default {
@@ -25,22 +24,23 @@
     components:{FormItem,Button},
     data(){
       return{
-        tag:undefined
+      }
+    },
+    computed:{
+      currentTag(){
+        return this.$store.state.currentTag
       }
     },
     methods:{
       update(name) {
-        if (this.tag) {
-          tagListModel.update(this.tag.id, name);
+        if (this.currentTag) {
+          this.$store.commit('updateTag', {id:this.currentTag.id,name})
         }
       },
       remove() {
-        if (this.tag) {
-          if (tagListModel.remove(this.tag.id)) {
-            this.$router.back();
-          } else {
-            window.alert('删除失败');
-          }
+        if (this.currentTag) {
+          this.$store.commit('removeTag',this.currentTag.id)
+          this.$router.back()
         }
       },
       goBack(){
@@ -48,13 +48,10 @@
       }
     },
     created() {
+      this.$store.commit('fetchTag')
       const id = this.$route.params.id;
-      tagListModel.fetch();
-      const tags = tagListModel.data;
-      const tag = tags.filter(t => t.id === id)[0];
-      if (tag) {
-        this.tag = tag;
-      } else {
+      this.$store.commit('findTag',id)
+      if (!this.currentTag) {
         this.$router.replace('/404');
       }
     }

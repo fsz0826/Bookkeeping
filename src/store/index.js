@@ -3,12 +3,14 @@ import Vuex from 'vuex'
 import clone from "@/lib/clone"
 import createId from "@/lib/createId"
 
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
+    currentTag:undefined,
   },
   mutations: {
     fetchRecord(state) {
@@ -19,7 +21,6 @@ const store = new Vuex.Store({
       record2.createAt = new Date()
       state.recordList.push(record2)
       store.commit('saveRecord')
-      console.log(state.recordList)
     },
     saveRecord(state) {
       window.localStorage.setItem('recordList',
@@ -31,11 +32,13 @@ const store = new Vuex.Store({
     },
     createTag(state, name) {
       const names = state.tagList.map(item => item.name);
-      if (names.indexOf(name) >= 0) {return 'duplicated';}
+      if (names.indexOf(name) >= 0) {
+        window.alert('标签名重复')
+        return
+      }
       const id = createId().toString();
       state.tagList.push({id, name: name});
       store.commit('saveTag')
-      return 'success';
     },
     saveTag(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
@@ -50,23 +53,24 @@ const store = new Vuex.Store({
       }
       state.tagList.splice(index, 1);
       store.commit('saveTag')
-      return true;
     },
-    updateTag(state, id, name) {
+    updateTag(state, payload) {
+      const {id,name} = payload
       const idList = state.tagList.map(item => item.id);
       if (idList.indexOf(id) >= 0) {
         const names =state.tagList.map(item => item.name);
         if (names.indexOf(name) >= 0) {
-          return 'duplicated';
+          window.alert('标签名重复')
         } else {
           const tag = state.tagList.filter(item => item.id === id)[0];
           tag.name = name;
           store.commit('saveTag')
-          return 'success';
         }
-      } else {
-        return 'not found';
       }
+    },
+    findTag(state,id){
+      const tags = state.tagList
+      state.currentTag = tags.filter(t => t.id === id)[0];
     },
   },
   actions: {},

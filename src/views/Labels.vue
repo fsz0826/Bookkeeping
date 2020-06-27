@@ -3,7 +3,7 @@
     <Layout>
       <div class="tags">
         <router-link class="tag"
-                     v-for="tag in tags" :key="tag.name"
+                     v-for="tag in tagList" :key="tag.name"
                      :to="`/labels/edit/${tag.id}`">
           <span>{{tag.name}}</span>
           <Icon name="next"/>
@@ -20,9 +20,7 @@
 </template>
 
 <script lang="js">
-  import tagListModel from "@/models/tagListModel"
   import Button from "@/components/Button"
-  tagListModel.fetch()
 
 
   export default {
@@ -30,7 +28,6 @@
     components: {Button},
     data(){
       return{
-        tags:tagListModel.data
       }
     },
     computed:{
@@ -44,7 +41,7 @@
         if(name === null){return}
         if (name){
 
-          const message = tagListModel.create(name)
+          const message = this.$store.commit('createTag',name)
           if (message === 'duplicated'){
             window.alert('标签名重复')
           }
@@ -53,6 +50,9 @@
         }
         }
       }
+    },
+    created(){
+      this.$store.commit('fetchTag')
     },
   }
 </script>
