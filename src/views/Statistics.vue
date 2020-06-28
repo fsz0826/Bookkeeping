@@ -41,15 +41,7 @@
       }
     }
     .interval-tabs-item {
-      background: #c4c4c4;
-
-      &.selected {
-        background: white;
-
-        &::after {
-          display: none;
-        }
-      }
+      height: 48px;
     }
   }
 </style>
