@@ -4,8 +4,8 @@
       <Tab class-prefix="type" :data-source="typeList" :value.sync="type"/>
       <Tab class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
       <ol>
-        <li v-for="(group,index) in result" :key="index">
-          <h3 class="title">{{group.title}}</h3>
+        <li v-for="(group,index) in groupList" :key="index">
+          <h3 class="title">{{beautify(group.title)}}</h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
               <span>{{tagString(item.tags)}}</span>
@@ -24,6 +24,9 @@
   import Tab from "@/components/Tab"
   import intervalList from "@/constants/intervalList"
   import typeList from "@/constants/typeList"
+  import dayjs from 'dayjs'
+  import clone from "@/lib/clone"
+
 
   export default {
     name: "Statistics",
@@ -40,21 +43,42 @@
       recordList() {
         return this.$store.state.recordList
       },
-      result() {
+      groupList() {
         const {recordList} = this
-        const hashTable = {}
-        for (let i = 0; i < recordList.length; i++) {
-          const [date, time] = recordList[i].createAt.split('T')
-          hashTable[date] = hashTable[date] || {title: date, items: []}
-          hashTable[date].items.push(recordList[i])
+        if (recordList.length === 0) {return []}
+        const newList = clone(recordList).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())
+        const result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}]
+        for (let i = 1; i < newList.length; i++) {
+          const current = newList[i]
+          const last = result[result.length - 1]
+          if (dayjs(last.title).isSame(dayjs(current.createAt), 'day')) {
+            last.items.push(current)
+          } else {
+            result.push({title: dayjs(current.createAt).format('YYYY-MM-DD'), items: [current]})
+          }
         }
-        console.log(hashTable)
-        return hashTable
+        return result
       }
     },
-    methods:{
-      tagString(tags){
+    methods: {
+      tagString(tags) {
         return tags.length === 0 ? '无' : tags.join()
+      },
+      beautify(string) {
+        const day = dayjs(string)
+        const now = dayjs()
+        const oneDay = 86400 * 1000
+        if (day.isSame(now, 'day')) {
+          return '今天'
+        } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
+          return '昨天'
+        } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
+          return '前天'
+        } else if (day.isSame(day, 'year')) {
+          return day.format('M月D日')
+        } else {
+          return day.format('YYYY年M月D日')
+        }
       }
     },
     beforeCreate() {
@@ -81,9 +105,8 @@
       height: 48px;
     }
   }
-</style>
-<style lang="scss" scoped>
-  %item{
+
+  %item {
     padding: 8px 16px;
     line-height: 24px;
     min-height: 40px;
@@ -91,6 +114,7 @@
     justify-content: space-between;
     align-items: center;
   }
+
   .title {
     @extend %item
   }
@@ -99,7 +123,8 @@
     @extend %item;
     background: white;
   }
-  .notes{
+
+  .notes {
     margin-right: auto;
     margin-left: 16px;
     color: #999999;
