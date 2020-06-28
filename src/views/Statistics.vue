@@ -2,10 +2,9 @@
   <div>
     <Layout>
       <Tab class-prefix="type" :data-source="typeList" :value.sync="type"/>
-      <Tab class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
       <ol>
         <li v-for="(group,index) in groupList" :key="index">
-          <h3 class="title">{{beautify(group.title)}}</h3>
+          <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
               <span>{{tagString(item.tags)}}</span>
@@ -22,7 +21,6 @@
 <script lang="js">
   import Layout from "../components/Layout"
   import Tab from "@/components/Tab"
-  import intervalList from "@/constants/intervalList"
   import typeList from "@/constants/typeList"
   import dayjs from 'dayjs'
   import clone from "@/lib/clone"
@@ -34,8 +32,6 @@
     data() {
       return {
         type: '-',
-        interval: 'day',
-        intervalList: intervalList,
         typeList: typeList
       }
     },
@@ -46,7 +42,7 @@
       groupList() {
         const {recordList} = this
         if (recordList.length === 0) {return []}
-        const newList = clone(recordList).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())
+        const newList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())
         const result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}]
         for (let i = 1; i < newList.length; i++) {
           const current = newList[i]
@@ -57,6 +53,9 @@
             result.push({title: dayjs(current.createAt).format('YYYY-MM-DD'), items: [current]})
           }
         }
+        result.map(group => {
+          group.total = group.items.reduce((sum, item) => sum + item.amount, 0)
+        })
         return result
       }
     },
@@ -67,7 +66,6 @@
       beautify(string) {
         const day = dayjs(string)
         const now = dayjs()
-        const oneDay = 86400 * 1000
         if (day.isSame(now, 'day')) {
           return '今天'
         } else if (day.isSame(now.subtract(1, 'day'), 'day')) {

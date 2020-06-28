@@ -30,7 +30,7 @@
           tags: [],
           notes: '',
           type: '-',
-          amount: '0'
+          amount: 0
         },
         typeList:typeList
       }
