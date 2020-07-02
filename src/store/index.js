@@ -10,7 +10,7 @@ const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
-    currentTag:undefined,
+    currentTag: undefined,
   },
   mutations: {
     fetchRecord(state) {
@@ -25,6 +25,7 @@ const store = new Vuex.Store({
     saveRecord(state) {
       window.localStorage.setItem('recordList',
         JSON.stringify(state.recordList));
+      window.alert('保存成功')
     },
 
     fetchTag(state) {
@@ -55,10 +56,10 @@ const store = new Vuex.Store({
       store.commit('saveTag')
     },
     updateTag(state, payload) {
-      const {id,name} = payload
+      const {id, name} = payload
       const idList = state.tagList.map(item => item.id);
       if (idList.indexOf(id) >= 0) {
-        const names =state.tagList.map(item => item.name);
+        const names = state.tagList.map(item => item.name);
         if (names.indexOf(name) >= 0) {
           window.alert('标签名重复')
         } else {
@@ -68,7 +69,7 @@ const store = new Vuex.Store({
         }
       }
     },
-    findTag(state,id){
+    findTag(state, id) {
       const tags = state.tagList
       state.currentTag = tags.filter(t => t.id === id)[0];
     },
