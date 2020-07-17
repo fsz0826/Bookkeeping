@@ -16,7 +16,6 @@
 
   export default {
     name: "Tags",
-    props: ['dataSource'],
     data() {
       return {
         selectedTags: [],
