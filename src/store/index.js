@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import clone from "@/lib/clone"
 import createId from "@/lib/createId"
+import tagList from "@/constants/tagList"
 
 
 Vue.use(Vuex)
@@ -29,7 +30,7 @@ const store = new Vuex.Store({
     },
 
     fetchTag(state) {
-      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]')
     },
     createTag(state, name) {
       const names = state.tagList.map(item => item.name);
