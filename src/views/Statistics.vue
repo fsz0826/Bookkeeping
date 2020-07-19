@@ -42,7 +42,9 @@
       groupList() {
         const {recordList} = this
         if (recordList.length === 0) {return []}
-        const newList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())
+        const newList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createAt).valueOf()
+          - dayjs(a.createAt).valueOf())
+        if(newList.length === 0){return}
         const result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}]
         for (let i = 1; i < newList.length; i++) {
           const current = newList[i]
